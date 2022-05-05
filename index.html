@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    .binele {
+      /* width: 100px; */
+      min-height: 100px;
+      aspect-ratio: 1;
+    }
+  </style>
+  <body
+    style="
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+    "
+  >
+    <div style="max-width: 500px; width: 100%; display: flex; margin: 1rem">
+      <input title="nice" type="text" id="val" value="?00??1" />
+      <input title="nice" type="color" id="c1" value="#010f79" />
+      <input title="nice" type="color" id="c2" value="#e10987" />
+      <input title="nice" type="number" id="rows" value="6" />
+    </div>
+    <div
+      style="display: flex; width: 600px; min-height: 90vh; flex-wrap: wrap"
+      id="art-cont"
+    ></div>
+
+    <script type="text/javascript">
+      const textEle = document.getElementById("val");
+      const c1ele = document.getElementById("c2");
+      const c2ele = document.getElementById("c1");
+      const rowsEle = document.getElementById("rows");
+      const art = document.getElementById("art-cont");
+      let c1 = c1ele.value;
+      let c2 = c2ele.value;
+      let bin = "";
+      let arr = [];
+      let rows = rowsEle.value;
+
+      const stringToBinary = (s) => {
+        let value = "";
+        for (var i = 0; i < s.length; i++) {
+          value += s[i].charCodeAt(0).toString(2) + "";
+        }
+        bin = value;
+        console.log(bin);
+      };
+      stringToBinary(textEle.value);
+      const makeEle = () => {
+        arr = [];
+        for (let i of bin) {
+          const x = document.createElement("div");
+          x.classList.add("binele");
+          if (i === "1") x.style.backgroundColor = c1;
+          if (i === "0") x.style.backgroundColor = c2;
+          x.style.flex = 1 / rows + " 1 " + 100 / rows + "%";
+          arr.push(x);
+        }
+      };
+      const printEle = () => {
+        art.innerHTML = "";
+        arr.length = arr.length - (arr.length % rows);
+        arr.forEach((ele) => {
+          art.appendChild(ele);
+        });
+      };
+
+      const createArt = () => {
+        stringToBinary(textEle.value);
+        makeEle();
+        printEle();
+      };
+      c1ele.onchange = (e) => {
+        c1 = c1ele.value;
+        createArt();
+      };
+      c2ele.onchange = (e) => {
+        c2 = c2ele.value;
+        createArt();
+      };
+      rowsEle.onchange = () => {
+        rows = rowsEle.value;
+        console.log(rows);
+        createArt();
+      };
+      textEle.onchange = () => {
+        createArt();
+      };
+      createArt();
+    </script>
+  </body>
+</html>
